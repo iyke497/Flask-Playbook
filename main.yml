@@ -1,0 +1,16 @@
+---
+#Play that configures nginx on ec2
+- name: "Configure webserver with nginx"
+  hosts: all
+  vars:
+    proj_app: PacificFinance
+    proj_name: pacific
+    repo_url: git@github.com:iyke497/PacificFinance-v2.git
+    venv_path: "{{ proj_path }}/venv"
+    proj_path: "{{ ansible_env.HOME }}/{{ proj_app }}"
+    reqs_path: requirements.txt
+
+  roles:
+    - test
+    - server-config
+    - processes

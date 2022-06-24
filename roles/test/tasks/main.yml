@@ -1,0 +1,46 @@
+---
+- name: upgrade package index
+  become: True
+  apt:
+    upgrade: yes
+
+- name: install apt packages
+  apt:
+    pkg: "{{ item }}"
+    update_cache: yes
+    cache_valid_time: 3600
+  become: True
+  with_items:
+    - git
+    - nginx
+    - python3-pip
+    - python-setuptools
+    - python3-venv
+    - supervisor
+
+- name: checkout git repo
+  git:
+    repo: "{{ repo_url }}"
+    dest: "{{ proj_path }}"
+    accept_hostkey: yes
+
+- name: install python requirements globally via pip
+  pip:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - pip
+    - virtualenv
+    - virtualenvwrapper
+  become: True
+
+- name: Install python packages and create venv
+  pip:
+    requirements: "{{ proj_path }}/{{ reqs_path }}"
+    virtualenv: "{{ venv_path }}"
+
+- name: Install python packages
+  pip:
+    name: gunicorn
+    virtualenv: "{{ venv_path }}"
+

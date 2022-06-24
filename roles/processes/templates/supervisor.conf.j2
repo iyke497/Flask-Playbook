@@ -1,0 +1,11 @@
+[program:{{ proj_name }}]
+command={{ venv_path }}/bin/gunicorn -w 3 run:app
+directory={{ proj_path }}
+user=ubuntu
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
+stdout_logfile=/var/log/{{ proj_name }}/{{ proj_name }}.out.log
+stderr_logfile=/var/log/{{ proj_name }}/{{ proj_name }}.err.log
+

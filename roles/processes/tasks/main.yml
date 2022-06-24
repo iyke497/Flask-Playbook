@@ -1,0 +1,30 @@
+---
+- name: copy supervisor configuration
+  template:
+    src: templates/supervisor.conf.j2
+    dest: /etc/supervisor/conf.d/{{ proj_name }}.conf
+  become: True
+
+- name: create err and out log dir for supervisor
+  file:
+    path: /var/log/{{ proj_name }}
+    state: directory
+  become: True
+
+- name: complete err log file
+  file:
+    path: /var/log/{{ proj_name }}/{{ proj_name }}.err.log
+    state: touch
+  become: True
+
+- name: complete output log
+  file:
+    path: /var/log/{{ proj_name }}/{{ proj_name }}.out.log
+    state: touch
+  become: True
+
+- name: restart supervisor
+  supervisorctl:
+    name: pacific
+    state: restarted
+  become: True

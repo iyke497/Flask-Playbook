@@ -1,0 +1,22 @@
+---
+- name: copy nginx config file
+  become: True
+  template:
+    src: templates/PacificFinance.conf.j2
+    dest: /etc/nginx/conf.d
+
+- name: rename templated nginx config
+  become: True
+  command: mv /etc/nginx/conf.d/PacificFinance.conf.j2 /etc/nginx/conf.d/PacificFinance.conf
+
+- name: set permissions on home for serving site
+  become: True
+  file:
+    path: "{{ ansible_env.HOME }}"
+    mode: '0755'
+
+- name: restart nginx
+  become: True
+  service:
+    name: nginx
+    state: restarted
