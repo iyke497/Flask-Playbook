@@ -5,4 +5,4 @@ application written following guidelines from this tutorial [Flask Tutorial - Co
 To make use of this playbook, you're project files should be arranged as described in the tutorial linked above. 
 
 Run the playbok to deploy the application using
-`ansible-playbook -i inventory.txt main.yml`
+`ansible-playbook -i hosts main.yml`
